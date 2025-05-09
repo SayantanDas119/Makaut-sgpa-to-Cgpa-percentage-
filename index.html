@@ -94,6 +94,15 @@
       line-height: 1.6;
       border-left: 5px solid #91c4f2;
     }
+    footer {
+      margin-top: auto;
+      padding: 20px;
+      text-align: center;
+      background-color: rgba(0, 0, 0, 0.05);
+      width: 100%;
+      font-size: 14px;
+      color: #666;
+    }
 
     @media (max-width: 500px) {
       .glass-card {
@@ -138,7 +147,9 @@
 
     <div id="result" class="output" style="display:none;"></div>
   </div>
-
+  <footer>
+    © 2025 Sayantan Das | Bachelor of Computer Applications (BCA), Techno India Hooghly. All rights reserved.
+  </footer>
   <script>
     function calculate() {
       const getFloat = id => parseFloat(document.getElementById(id).value) || 0;
