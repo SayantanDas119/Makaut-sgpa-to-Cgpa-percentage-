@@ -1,116 +1,99 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>MAKAUT SGPA to CGPA & percentage Calculator</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>MAKAUT SGPA to CGPA Calculator</title>
   <style>
     body {
       margin: 0;
       padding: 0;
-      background: linear-gradient(to right, #fdfbfb, #ebedee); /* Soft pastel background */
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
+      background: linear-gradient(120deg, #fdfcfb, #e2d1c3, #f5f7fa);
       font-family: 'Segoe UI', sans-serif;
       color: #333;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
     }
 
     .glass-card {
-      background: rgba(255, 255, 255, 0.75);
-      border-radius: 20px;
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-      backdrop-filter: blur(10px);
-      padding: 40px;
-      max-width: 450px;
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 25px;
+      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.1);
+      padding: 45px;
+      margin-top: 50px;
+      max-width: 500px;
       width: 90%;
-      animation: fadeIn 0.8s ease-in-out;
-    }
-
-    @keyframes fadeIn {
-      from {opacity: 0; transform: translateY(20px);}
-      to {opacity: 1; transform: translateY(0);}
+      backdrop-filter: blur(15px);
     }
 
     h2 {
       text-align: center;
+      font-size: 28px;
       margin-bottom: 30px;
-      font-size: 26px;
-      font-weight: 600;
-      color: #444;
+      background: linear-gradient(90deg, #667eea, #764ba2);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
 
     label {
-      display: block;
-      margin-top: 15px;
       font-size: 15px;
-      color: #555;
+      margin-top: 10px;
+      display: block;
+      color: #444;
     }
-
-    input {
-      width: 100%;
-      padding: 10px 12px;
-      margin-top: 5px;
-      font-size: 16px;
-      border: 1px solid #ccc;
-      border-radius: 10px;
-      background: #f9f9f9;
-      color: #333;
-      outline: none;
-      transition: border 0.3s;
-    }
-
-    input:focus {
-      border-color: #91c4f2;
-      background: #fff;
-    }
+	input {
+	  width: 100%;
+	  box-sizing: border-box;
+	  padding: 8px;
+	  font-size: 14px;
+	  margin-top: 5px;
+	  border: none;
+	  border-radius: 8px;
+	  background: #f0f0f0;
+	}
 
     button {
-      width: 100%;
-      padding: 12px;
       margin-top: 25px;
-      background: linear-gradient(45deg, #a1c4fd, #c2e9fb);
-      border: none;
-      border-radius: 12px;
-      color: #333;
-      font-weight: bold;
+      padding: 14px;
+      width: 100%;
       font-size: 16px;
+      font-weight: bold;
+      border: none;
+      border-radius: 14px;
+      background: linear-gradient(to right, #a1c4fd, #c2e9fb);
       cursor: pointer;
-      transition: background 0.3s ease;
-    }
-
-    button:hover {
-      background: linear-gradient(45deg, #91bdf5, #adddfc);
     }
 
     .output {
-      background-color: #f4f9ff;
-      padding: 20px;
       margin-top: 30px;
-      border-radius: 10px;
-      font-size: 16px;
+      padding: 25px;
+      border-radius: 15px;
+      background: #f4f9ff;
+      border-left: 5px solid #80bfff;
       color: #333;
-      line-height: 1.6;
-      border-left: 5px solid #91c4f2;
+      display: none;
     }
+
     footer {
+      text-align: center;
+      font-size: 14px;
       margin-top: auto;
       padding: 20px;
-      text-align: center;
-      background-color: rgba(0, 0, 0, 0.05);
+      background-color: rgba(0, 0, 0, 0.04);
       width: 100%;
-      font-size: 14px;
-      color: #666;
     }
 
-    @media (max-width: 500px) {
-      .glass-card {
-        padding: 25px;
-      }
+    .semesters-container {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 15px;
+    }
 
-      h2 {
-        font-size: 24px;
+    @media (min-width: 600px) {
+      .semesters-container {
+        grid-template-columns: 1fr 1fr;
       }
     }
   </style>
@@ -118,68 +101,80 @@
 <body>
 
   <div class="glass-card">
-    <h2>MAKAUT SGPA to CGPA & percentage Calculator</h2>
-
+    <h2>MAKAUT CGPA Calculator</h2>
     <form id="cgpaForm" onsubmit="return false;">
-      <label>1st Semester SGPA:</label>
-      <input type="number" id="sem1" step="0.01" required>
-
-      <label>2nd Semester SGPA:</label>
-      <input type="number" id="sem2" step="0.01">
-
-      <label>3rd Semester SGPA:</label>
-      <input type="number" id="sem3" step="0.01">
-
-      <label>4th Semester SGPA:</label>
-      <input type="number" id="sem4" step="0.01">
-
-      <label>5th Semester SGPA:</label>
-      <input type="number" id="sem5" step="0.01">
-
-      <label>6th Semester SGPA:</label>
-      <input type="number" id="sem6" step="0.01">
-
-      <label>Total Number of Semesters:</label>
-      <input type="number" id="sem_num" min="1" required>
-
+      <div class="semesters-container">
+        <div>
+          <label>1st Sem SGPA:</label>
+          <input type="number" step="0.01" id="sem1">
+        </div>
+        <div>
+          <label>2nd Sem SGPA:</label>
+          <input type="number" step="0.01" id="sem2">
+        </div>
+        <div>
+          <label>3rd Sem SGPA:</label>
+          <input type="number" step="0.01" id="sem3">
+        </div>
+        <div>
+          <label>4th Sem SGPA:</label>
+          <input type="number" step="0.01" id="sem4">
+        </div>
+        <div>
+          <label>5th Sem SGPA:</label>
+          <input type="number" step="0.01" id="sem5">
+        </div>
+        <div>
+          <label>6th Sem SGPA:</label>
+          <input type="number" step="0.01" id="sem6">
+        </div>
+        <div>
+          <label>7th Sem SGPA:</label>
+          <input type="number" step="0.01" id="sem7">
+        </div>
+        <div>
+          <label>8th Sem SGPA:</label>
+          <input type="number" step="0.01" id="sem8">
+        </div>
+      </div>
       <button onclick="calculate()">Calculate</button>
     </form>
-
-    <div id="result" class="output" style="display:none;"></div>
+    <div class="output" id="result"></div>
   </div>
+
   <footer>
     © 2025 Sayantan Das | Bachelor of Computer Applications (BCA), Techno India Hooghly. All rights reserved.
   </footer>
+
   <script>
     function calculate() {
-      const getFloat = id => parseFloat(document.getElementById(id).value) || 0;
-      const sem1 = getFloat("sem1");
-      const sem2 = getFloat("sem2");
-      const sem3 = getFloat("sem3");
-      const sem4 = getFloat("sem4");
-      const sem5 = getFloat("sem5");
-      const sem6 = getFloat("sem6");
-      const semNumInput = document.getElementById("sem_num").value;
+      let total = 0, count = 0;
 
-      if (!semNumInput || parseInt(semNumInput) <= 0) {
-        alert("Please enter a valid number of semesters.");
+      for (let i = 1; i <= 8; i++) {
+        const val = parseFloat(document.getElementById(`sem${i}`).value);
+        if (!isNaN(val)) {
+          total += val;
+          count++;
+        }
+      }
+
+      if (count === 0) {
+        document.getElementById("result").innerHTML = "Please enter at least one SGPA.";
+        document.getElementById("result").style.display = "block";
         return;
       }
 
-      const sem_num = parseInt(semNumInput);
-      const total = sem1 + sem2 + sem3 + sem4 + sem5 + sem6;
-      const cgpa = total / sem_num;
+      const cgpa = total / count;
       const percentage = ((cgpa - 0.75) * 10).toFixed(2);
       const average = cgpa.toFixed(2);
 
-      const resultBox = document.getElementById("result");
-      resultBox.style.display = "block";
-      resultBox.innerHTML = `
-        <strong>Total Credit Point:</strong> ${total.toFixed(2)}<br>
-        <strong>CGPA:</strong> ${cgpa.toFixed(2)}<br>
-        <strong>Percentage:</strong> ${percentage} %<br>
-        <strong>Average SGPA:</strong> ${average}
+      document.getElementById("result").innerHTML = `
+        <div><strong>Total SGPA Sum:</strong> ${total.toFixed(2)}</div>
+        <div><strong>CGPA:</strong> ${average}</div>
+        <div><strong>Percentage:</strong> ${percentage}%</div>
+        <div><strong>Semesters Counted:</strong> ${count}</div>
       `;
+      document.getElementById("result").style.display = "block";
     }
   </script>
 
