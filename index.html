@@ -3,29 +3,63 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>MAKAUT SGPA to CGPA Calculator</title>
+  <title>MAKAUT SGPA to CGPA & percentage Calculator</title>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
   <style>
+    :root {
+      --bg: #fdfcfb;
+      --card: rgba(255, 255, 255, 0.9);
+      --text: #333;
+      --input: #f0f0f0;
+      --border: #80bfff;
+      --button-bg: linear-gradient(to right, #a1c4fd, #c2e9fb);
+      --output-bg: #f4f9ff;
+    }
+
+    body.dark {
+      --bg: #1e1e1e;
+      --card: rgba(40, 40, 40, 0.9);
+      --text: #f5f5f5;
+      --input: #333;
+      --border: #6699ff;
+      --button-bg: linear-gradient(to right, #4b6cb7, #182848);
+      --output-bg: #2a2a2a;
+    }
+
     body {
       margin: 0;
       padding: 0;
-      background: linear-gradient(120deg, #fdfcfb, #e2d1c3, #f5f7fa);
+      background: var(--bg);
       font-family: 'Segoe UI', sans-serif;
-      color: #333;
+      color: var(--text);
       display: flex;
       flex-direction: column;
       align-items: center;
       min-height: 100vh;
+      transition: background 0.3s, color 0.3s;
     }
 
     .glass-card {
-      background: rgba(255, 255, 255, 0.9);
+      background: var(--card);
       border-radius: 25px;
       box-shadow: 0 12px 35px rgba(0, 0, 0, 0.1);
       padding: 45px;
       margin-top: 50px;
-      max-width: 500px;
+      max-width: 600px;
       width: 90%;
       backdrop-filter: blur(15px);
+      animation: pageLoad 0.9s ease-out;
+    }
+
+    @keyframes pageLoad {
+      0% {
+        opacity: 0;
+        transform: translateY(30px) scale(0.95);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
     }
 
     h2 {
@@ -41,48 +75,45 @@
       font-size: 15px;
       margin-top: 10px;
       display: block;
-      color: #444;
     }
-	input {
-	  width: 100%;
-	  box-sizing: border-box;
-	  padding: 8px;
-	  font-size: 14px;
-	  margin-top: 5px;
-	  border: none;
-	  border-radius: 8px;
-	  background: #f0f0f0;
-	}
+
+    input {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 8px;
+      font-size: 14px;
+      margin-top: 5px;
+      border: none;
+      border-radius: 8px;
+      background: var(--input);
+      color: var(--text);
+    }
 
     button {
-      margin-top: 25px;
-      padding: 14px;
+      margin-top: 20px;
+      padding: 12px;
       width: 100%;
       font-size: 16px;
       font-weight: bold;
       border: none;
-      border-radius: 14px;
-      background: linear-gradient(to right, #a1c4fd, #c2e9fb);
+      border-radius: 12px;
+      background: var(--button-bg);
       cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      transform: scale(1.03);
     }
 
     .output {
-      margin-top: 30px;
-      padding: 25px;
-      border-radius: 15px;
-      background: #f4f9ff;
-      border-left: 5px solid #80bfff;
-      color: #333;
-      display: none;
-    }
-
-    footer {
-      text-align: center;
-      font-size: 14px;
-      margin-top: auto;
+      margin-top: 25px;
       padding: 20px;
-      background-color: rgba(0, 0, 0, 0.04);
-      width: 100%;
+      border-radius: 10px;
+      background: var(--output-bg);
+      border-left: 5px solid var(--border);
+      display: none;
+      color: var(--text);
     }
 
     .semesters-container {
@@ -96,6 +127,27 @@
         grid-template-columns: 1fr 1fr;
       }
     }
+
+    footer {
+      text-align: center;
+      font-size: 14px;
+      margin-top: auto;
+      padding: 20px;
+      background-color: rgba(0, 0, 0, 0.05);
+      width: 100%;
+      color: var(--text);
+    }
+
+    .actions {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      margin-top: 15px;
+    }
+
+    .actions button {
+      width: 100%;
+    }
   </style>
 </head>
 <body>
@@ -104,63 +156,55 @@
     <h2>MAKAUT SGPA to CGPA & percentage Calculator</h2>
     <form id="cgpaForm" onsubmit="return false;">
       <div class="semesters-container">
-        <div>
-          <label>1st Semester SGPA:</label>
-          <input type="number" step="0.01" id="sem1">
-        </div>
-        <div>
-          <label>2nd Semester SGPA:</label>
-          <input type="number" step="0.01" id="sem2">
-        </div>
-        <div>
-          <label>3rd Semester SGPA:</label>
-          <input type="number" step="0.01" id="sem3">
-        </div>
-        <div>
-          <label>4th Semester SGPA:</label>
-          <input type="number" step="0.01" id="sem4">
-        </div>
-        <div>
-          <label>5th Semester SGPA:</label>
-          <input type="number" step="0.01" id="sem5">
-        </div>
-        <div>
-          <label>6th Semester SGPA:</label>
-          <input type="number" step="0.01" id="sem6">
-        </div>
-        <div>
-          <label>7th Semester SGPA:</label>
-          <input type="number" step="0.01" id="sem7">
-        </div>
-        <div>
-          <label>8th Semester SGPA:</label>
-          <input type="number" step="0.01" id="sem8">
-        </div>
+        <div><label>1st Sem SGPA:</label><input type="number" step="0.01" id="sem1"></div>
+        <div><label>2nd Sem SGPA:</label><input type="number" step="0.01" id="sem2"></div>
+        <div><label>3rd Sem SGPA:</label><input type="number" step="0.01" id="sem3"></div>
+        <div><label>4th Sem SGPA:</label><input type="number" step="0.01" id="sem4"></div>
+        <div><label>5th Sem SGPA:</label><input type="number" step="0.01" id="sem5"></div>
+        <div><label>6th Sem SGPA:</label><input type="number" step="0.01" id="sem6"></div>
+        <div><label>7th Sem SGPA:</label><input type="number" step="0.01" id="sem7"></div>
+        <div><label>8th Sem SGPA:</label><input type="number" step="0.01" id="sem8"></div>
       </div>
       <button onclick="calculate()">Calculate</button>
     </form>
+
     <div class="output" id="result"></div>
+
+    <div class="actions">
+      <button onclick="toggleDarkMode()">🌙 Toggle Dark Mode</button>
+      <button onclick="printPage()">📄 Export to PDF</button>
+    </div>
   </div>
 
   <footer>
-    © 2025 Sayantan Das | Bachelor of Computer Applications (BCA), Techno India Hooghly. All rights reserved.
+    © 2025 Sayantan Das | BCA, Techno India Hooghly. All rights reserved.
   </footer>
 
   <script>
     function calculate() {
       let total = 0, count = 0;
+      const resultDiv = document.getElementById("result");
+      resultDiv.style.display = "block";
 
       for (let i = 1; i <= 8; i++) {
-        const val = parseFloat(document.getElementById(`sem${i}`).value);
-        if (!isNaN(val)) {
-          total += val;
-          count++;
+        const input = document.getElementById(`sem${i}`);
+        const val = parseFloat(input.value);
+
+        if (input.value !== "") {
+          if (isNaN(val) || val < 0 || val > 10) {
+            resultDiv.innerHTML = `❗ SGPA for Sem ${i} must be between 0 and 10.`;
+            resultDiv.style.color = "red";
+            return;
+          } else {
+            total += val;
+            count++;
+          }
         }
       }
 
       if (count === 0) {
-        document.getElementById("result").innerHTML = "Please enter at least one SGPA.";
-        document.getElementById("result").style.display = "block";
+        resultDiv.innerHTML = "❗ Please enter at least one SGPA.";
+        resultDiv.style.color = "red";
         return;
       }
 
@@ -168,15 +212,29 @@
       const percentage = ((cgpa - 0.75) * 10).toFixed(2);
       const average = cgpa.toFixed(2);
 
-      document.getElementById("result").innerHTML = `
+      resultDiv.innerHTML = `
         <div><strong>Total SGPA Sum:</strong> ${total.toFixed(2)}</div>
         <div><strong>CGPA:</strong> ${average}</div>
         <div><strong>Percentage:</strong> ${percentage}%</div>
         <div><strong>Semesters Counted:</strong> ${count}</div>
       `;
-      document.getElementById("result").style.display = "block";
+      resultDiv.style.color = "inherit";
+
+      // 🎉 Confetti animation
+      confetti({
+        particleCount: 120,
+        spread: 70,
+        origin: { y: 0.6 }
+      });
+    }
+
+    function toggleDarkMode() {
+      document.body.classList.toggle("dark");
+    }
+
+    function printPage() {
+      window.print();
     }
   </script>
-
 </body>
 </html>
